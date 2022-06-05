@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText amountED, numberOfSlotsED;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         initViews();
+        ArrayList<String> s = new ArrayList<>();
 
     }
 
@@ -89,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 infoSpinsTV.setText(" numar spins: " + game.getNumarSpins());
                 break;
             case R.id.spinButton:
-                game.genereazaRandomNumbers(availableAmount, slotsNumber);
+                game.generateRandomNumbers(availableAmount, slotsNumber);
                 myAdapter.setSlotsArray(game.getGenerateSlots().getSlotArray());
                 myAdapter.notifyDataSetChanged();
                 slotsRV.setAdapter(myAdapter);
@@ -102,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     gameOverTV.setText("Din pacate suma s-a terminat!");
                     newGameBtn.setVisibility(View.VISIBLE);
                 }
-                if (game.isToateEgale()) {
+                if (game.isAllEquals()) {
                     infoAmountTV.setText("Am dublat suma! Sunt " + game.getSumaActuala() + " lei disponibili.");
                 }
                 break;

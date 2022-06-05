@@ -5,7 +5,7 @@ import java.util.Random;
 public class GameManagement {
 
     private GenerateSlots generateSlots;
-    private boolean allEquals;
+    private boolean allSlotsEquals;
     private boolean amountLost;
     private int numberOfSpins;
     int availableAmount;
@@ -14,37 +14,39 @@ public class GameManagement {
         generateSlots = new GenerateSlots(numberOfSlots);
     }
 
-
-    public void genereazaRandomNumbers(int sumaPrimitaDinMain, int numarSloturi) {
-        availableAmount = sumaPrimitaDinMain;
+    public void generateRandomNumbers(int playMoney, int numberOfSlots) {
+        availableAmount = playMoney;
         if (availableAmount > 0){
             numberOfSpins++;
-            for (int i = 0; i < numarSloturi; i++) {
+            for (int i = 0; i < numberOfSlots; i++) {
                 int randomValue = new Random().nextInt(4);
                 generateSlots.slotAtIndex(i).setValue(randomValue);
             }
-            allEquals = true;
-            for (int i = 0; i < numarSloturi - 1; i++) {
-                if (generateSlots.slotAtIndex(i).getValue() != generateSlots.slotAtIndex(i+1).getValue()){
-                    allEquals = false;
-                    break;
-                }
+            updateMoney(numberOfSlots);
+        }
+    }
+
+    private void updateMoney(int nrSlots){
+        allSlotsEquals = true;
+        for (int i = 0; i < nrSlots - 1; i++) {
+            if (generateSlots.slotAtIndex(i).getValue() != generateSlots.slotAtIndex(i+1).getValue()){
+                allSlotsEquals = false;
+                break;
             }
-            if (allEquals){
-                availableAmount *= 2;
-            } else {
-                availableAmount -= 5;
-                if (availableAmount <= 0){
-                    amountLost = true;
-                    availableAmount = 0;
-                }
+        }
+        if (allSlotsEquals){
+            availableAmount *= 2;
+        } else {
+            availableAmount -= 5;
+            if (availableAmount <= 0){
+                amountLost = true;
+                availableAmount = 0;
             }
         }
     }
 
-
-    public boolean isToateEgale() {
-        return allEquals;
+    public boolean isAllEquals() {
+        return allSlotsEquals;
     }
 
     public boolean isAmountLost() {
